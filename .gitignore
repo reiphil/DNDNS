@@ -20,6 +20,7 @@
 *.sbr
 *.scc
 *.orig
+*Web.config
 [Bb]in
 [Dd]ebug*/
 [Bb]ackup
