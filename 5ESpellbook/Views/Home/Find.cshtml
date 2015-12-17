@@ -1,0 +1,41 @@
+﻿@model _5ESpellbook.Models.FindSpellModel
+
+@{
+    ViewBag.Title = "Spell Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (Model.spell != null)
+{
+    <div>
+        <h3>
+            @Model.spell.Name @if (Model.spell.IsRitual)
+            { <span>(Ritual)</span> }
+        </h3>
+        <span style="font-weight: bold; font-style:italic">@Model.spell.Level @Model.spell.School</span><br />
+        <strong>Action:</strong> @Model.spell.Action<br />
+        <strong>Range:</strong> @Model.spell.Range<br />
+        <strong>Components:</strong> @Model.spell.Components<br />
+        <strong>Duration:</strong> @Model.spell.Duration<br />
+        <strong>Of Class:</strong> @Model.spell.OfClass<br />
+        <span>@Html.Raw(Model.spell.Description)</span>
+    </div>
+    <div style="font-size: 10px; float: right;">
+        For collaborators: @Html.ActionLink("Edit", "AddSpell", new { id = @Model.spell.SpellID })
+    </div>
+}
+else if (Model.suggestions.Count > 1)
+{
+    <h3>Did you mean... </h3><br />
+    <ul>
+        @foreach (string suggestion in Model.suggestions)
+        {
+            <li>@Html.ActionLink(suggestion, "Find", new {@id=suggestion.Replace(" ", "").ToLower()})</li>
+        }
+    </ul>
+}
+else
+{
+    <h3>Sorry...</h3><br />
+    <div>There were no spells similar to what you are looking for.  The search matches based the start of the spell name.  For example, if you are searching for "mage hand" you can simply enter "mage".  Searching on "hand" will not yield any results.</div>
+}

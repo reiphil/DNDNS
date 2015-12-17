@@ -1,0 +1,40 @@
+﻿@model _5ESpellbook.Models.SpellLinkModel
+@{
+    ViewBag.Title = "Spell Link";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#spinner").hide();
+    });
+    function loading() {
+        $("#filterDiv").hide();
+        $("#dataDiv").hide();
+        $("#spinner").show();
+    }
+</script>
+
+<h2>Spell Link</h2>
+
+@if (Model.spells.Count > 0)
+{
+    using (Html.BeginForm("Generate", "Home", FormMethod.Post))
+    {
+        <h3>Linked spell book has: </h3>
+        <ul>
+            @foreach (var spell in Model.spells)
+            {
+                <li>@Html.ActionLink(spell.Name, "Find", new { id = spell.Name.Replace(" ", "").ToLower() })<input type="hidden" name="SelectedSpells" value="@spell.SpellID" /></li>
+            }
+        </ul>
+        <input type="submit" name="ofType" onclick="loading();" value="View as Spellbook" />
+        <input type="submit" onclick="loading();" name="ofType" value="View as Spell Cards" />
+    }
+}
+else
+{
+    <h3>Sorry...</h3>
+    <div>It appears the spell link you are trying to use is invalid.  Please generate a new spell link from the spells you'd like on the main page.</div>
+}
